@@ -1,0 +1,394 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         UserRole @default(VIEWER)
+  orgId        String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  org          Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  auditLogs    AuditLog[]
+  importJobs   ImportJob[]
+  comments     Comment[]
+  approvals    Approval[]
+
+  @@index([email])
+  @@index([orgId])
+}
+
+model Organization {
+  id           String   @id @default(cuid())
+  name         String
+  baseCurrency String   @default("USD")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  users        User[]
+  entities     Entity[]
+  accounts     Account[]
+  mappings     Mapping[]
+  fxRates      FxRate[]
+  versions     Version[]
+  drivers      Driver[]
+  planCells    PlanCell[]
+  journalAdjusts JournalAdjust[]
+  importJobs   ImportJob[]
+  reportPresets ReportPreset[]
+  scenarios    Scenario[]
+  comments     Comment[]
+  auditLogs    AuditLog[]
+  approvals    Approval[]
+}
+
+model Entity {
+  id           String   @id @default(cuid())
+  orgId        String
+  name         String
+  currency     String
+  isActive     Boolean  @default(true)
+  ownershipPct Float?   // For consolidation
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  org          Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  mappings     Mapping[]
+  planCells    PlanCell[]
+  journalAdjusts JournalAdjust[]
+
+  @@index([orgId])
+  @@index([name])
+}
+
+model Account {
+  id        String      @id @default(cuid())
+  orgId     String
+  code      String
+  name      String
+  type      AccountType
+  parentId  String?
+  isActive  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  parent    Account?     @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children  Account[]    @relation("AccountHierarchy")
+  mappings  Mapping[]
+  planCells PlanCell[]
+  journalAdjusts JournalAdjust[]
+
+  @@unique([orgId, code])
+  @@index([orgId])
+  @@index([parentId])
+  @@index([type])
+}
+
+model Mapping {
+  id         String @id @default(cuid())
+  orgId      String
+  entityId   String
+  sourceCode String
+  accountId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  entity     Entity       @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  account    Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, entityId, sourceCode])
+  @@index([orgId])
+  @@index([entityId])
+  @@index([accountId])
+}
+
+model FxRate {
+  id          String   @id @default(cuid())
+  orgId       String
+  date        DateTime
+  currency    String
+  rateToBase  Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  org         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, date, currency])
+  @@index([orgId])
+  @@index([date])
+  @@index([currency])
+}
+
+model Version {
+  id         String        @id @default(cuid())
+  orgId      String
+  name       String
+  type       VersionType
+  fiscalYear Int
+  status     VersionStatus @default(DRAFT)
+  lockedAt   DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  // Relations
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  planCells  PlanCell[]
+  journalAdjusts JournalAdjust[]
+  scenarios  Scenario[]
+  comments   Comment[]
+  approvals  Approval[]
+
+  @@index([orgId])
+  @@index([type])
+  @@index([fiscalYear])
+  @@index([status])
+}
+
+model Driver {
+  id         String   @id @default(cuid())
+  orgId      String
+  name       String
+  expression String   // e.g., "headcount * salary * seasonality"
+  inputs     Json     // { headcount: 100, salary: 50000, seasonality: [1.1, 1.0, 0.9, ...] }
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([name])
+}
+
+model PlanCell {
+  id        String   @id @default(cuid())
+  orgId     String
+  versionId String
+  entityId  String
+  accountId String
+  month     Int      // 1-12
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  version   Version @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  entity    Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([versionId, entityId, accountId, month])
+  @@index([orgId])
+  @@index([versionId])
+  @@index([entityId])
+  @@index([accountId])
+  @@index([month])
+}
+
+model JournalAdjust {
+  id        String   @id @default(cuid())
+  orgId     String
+  versionId String
+  entityId  String
+  accountId String
+  month     Int
+  amount    Float
+  memo      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  version   Version      @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  entity    Entity       @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  account   Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([versionId])
+  @@index([entityId])
+  @@index([accountId])
+  @@index([month])
+}
+
+model ImportJob {
+  id        String       @id @default(cuid())
+  orgId     String
+  type      ImportType
+  status    ImportStatus @default(PENDING)
+  createdBy String
+  summary   Json?        // { totalRows: 100, successRows: 95, errors: [...] }
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([type])
+  @@index([status])
+  @@index([createdBy])
+}
+
+model ReportPreset {
+  id     String @id @default(cuid())
+  orgId  String
+  name   String
+  config Json   // { rows: [...], columns: [...], filters: {...} }
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  org    Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([name])
+}
+
+model Scenario {
+  id            String   @id @default(cuid())
+  orgId         String
+  name          String
+  baseVersionId String
+  overrides     Json     // { drivers: {...}, fxRates: {...} }
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  org           Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  baseVersion   Version      @relation(fields: [baseVersionId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([baseVersionId])
+  @@index([name])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  orgId     String
+  versionId String?
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  version   Version?     @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([versionId])
+  @@index([userId])
+}
+
+model Approval {
+  id        String   @id @default(cuid())
+  orgId     String
+  versionId String
+  userId    String
+  status    ApprovalStatus
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  version   Version      @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([versionId])
+  @@index([userId])
+  @@index([status])
+}
+
+model AuditLog {
+  id        String     @id @default(cuid())
+  orgId     String
+  userId    String
+  action    String     // e.g., "version.approved", "import.completed"
+  resource  String     // e.g., "Version", "ImportJob"
+  resourceId String?
+  details   Json?      // Additional context
+  createdAt DateTime   @default(now())
+
+  // Relations
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// Enums
+enum UserRole {
+  CFO
+  CONTROLLER
+  ANALYST
+  VIEWER
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum VersionType {
+  BUDGET
+  FORECAST
+  ACTUAL
+}
+
+enum VersionStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  LOCKED
+}
+
+enum ImportType {
+  GL
+  TRANSACTIONS
+  FX_RATES
+}
+
+enum ImportStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
