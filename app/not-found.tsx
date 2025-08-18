@@ -11,9 +11,9 @@ export default function NotFound() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="p-3 bg-blue-100 rounded-full">
-              <FileQuestion className="h-8 w-8 text-blue-600" />
-            </div>
+                    <div className="p-3 bg-blue-800/20 rounded-full">
+          <FileQuestion className="h-8 w-8 text-blue-400" />
+        </div>
           </div>
           <CardTitle className="text-2xl font-bold">Page not found</CardTitle>
           <p className="text-muted-foreground">

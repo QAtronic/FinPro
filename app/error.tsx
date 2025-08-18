@@ -21,9 +21,9 @@ export default function Error({
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="p-3 bg-red-100 rounded-full">
-              <AlertTriangle className="h-8 w-8 text-red-600" />
-            </div>
+                    <div className="p-3 bg-red-800/20 rounded-full">
+          <AlertTriangle className="h-8 w-8 text-red-400" />
+        </div>
           </div>
           <CardTitle className="text-2xl font-bold">Something went wrong!</CardTitle>
           <p className="text-muted-foreground">

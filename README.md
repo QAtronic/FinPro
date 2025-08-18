@@ -1,43 +1,93 @@
-# CorpFin Pro - Corporate Finance Management Platform
+# 💰 CorpFin Pro - Corporate Finance Management Platform
 
-A production-ready corporate finance web application designed for CFO/Controller/FP&A teams. Provides comprehensive features including budgeting, forecasting, cash-flow planning, multi-entity consolidation, variance analysis, scenario modeling, AR/AP summaries, KPI dashboards, and exportable reports.
+[![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 🚀 Features
+> Professional corporate finance web application for CFO/Controller/FP&A teams with dark theme, multi-entity consolidation, and comprehensive financial planning tools.
 
-### Core Functionality
-- **Authentication & RBAC**: Multi-role access control (CFO, Controller, Analyst, Viewer)
-- **Multi-Entity Support**: Consolidate multiple legal entities with different currencies
-- **Chart of Accounts**: Flexible COA management with parent-child relationships
-- **Budgeting & Forecasting**: Version-based planning with driver-based calculations
-- **Financial Consolidation**: Multi-entity consolidation with FX rate application
-- **Reporting & Analytics**: P&L, Balance Sheet, Cash Flow, Variance Analysis
-- **Cash Flow Planning**: 13-week cash flow projections and AR/AP aging
-- **Scenario Modeling**: What-if analysis with driver adjustments
-- **Data Import**: CSV/XLSX import for GL data and transactions
-- **Audit & Approvals**: Complete audit trail and approval workflows
+![CorpFin Pro Dashboard](https://img.shields.io/badge/Dashboard-Dark%20Theme%20Ready-success)
 
-### Technical Stack
-- **Frontend**: Next.js 14 (App Router) + TypeScript + TailwindCSS + shadcn/ui
-- **Backend**: Next.js API Routes + Prisma ORM + PostgreSQL
-- **Authentication**: NextAuth.js with Credentials Provider
-- **Charts**: Recharts for data visualization
-- **Forms**: React Hook Form + Zod validation
-- **Testing**: Vitest (unit) + Playwright (e2e)
-- **Deployment**: Docker + Vercel ready
+## 🌟 Features
 
-## 📋 Prerequisites
+### 🎨 **Modern Dark Theme**
+- Beautiful dark blue/purple background with white text
+- Optimized for low-light environments
+- Professional and easy on the eyes
 
+### 📊 **Financial Dashboard**
+- Real-time KPI monitoring
+- Interactive charts and graphs
+- Revenue trends and expense breakdown
+- Multi-currency support
+
+### 👥 **Multi-Role Support**
+- **CFO** - Full administrative access
+- **Controller** - Data management and reporting
+- **Analyst** - Read/write access to financial data
+- **Viewer** - Read-only access
+
+### 🏢 **Entity Management**
+- Multi-entity consolidation
+- Geographic distribution analysis
+- Ownership percentage tracking
+- Currency management per entity
+
+### 📈 **Financial Planning**
+- Budget and forecast management
+- Version control for planning scenarios
+- Approval workflows
+- Variance analysis
+
+### 📋 **Chart of Accounts**
+- Hierarchical account structure
+- Account type categorization
+- Balance tracking
+- Import/export capabilities
+
+### 📊 **Reports & Analytics**
+- Financial statements
+- Performance dashboards
+- Custom report generation
+- Excel/CSV export
+
+### 🔄 **Data Management**
+- Excel/CSV import functionality
+- Data validation and error handling
+- Audit trail
+- Backup and restore
+
+### 💱 **FX Rate Management**
+- Real-time exchange rates
+- Historical rate tracking
+- Multi-currency consolidation
+- Rate change monitoring
+
+### 🎯 **Business Drivers**
+- Key performance indicators
+- Driver impact analysis
+- Trend monitoring
+- Scenario modeling
+
+### ✅ **Approval Workflows**
+- Multi-level approval process
+- Request tracking
+- Status monitoring
+- Email notifications
+
+## 🚀 Quick Start
+
+### Prerequisites
 - Node.js 18+ 
-- PostgreSQL 15+ (or SQLite for local development)
-- Docker & Docker Compose (optional, for containerized development)
+- npm or yarn
+- Git
 
-## 🛠️ Installation
-
-### Option 1: Local Development
+### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yourusername/corpfin-pro.git
    cd corpfin-pro
    ```
 
@@ -48,269 +98,150 @@ A production-ready corporate finance web application designed for CFO/Controller
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env.local
+   cp env.example .env.local
    ```
    
-   Edit `.env.local` with your configuration:
+   Edit `.env.local`:
    ```env
-   # Database
-   DATABASE_URL="postgresql://username:password@localhost:5432/corpfin_pro"
-   # For local development with SQLite:
-   # DATABASE_URL="file:./dev.db"
-
-   # NextAuth
-   NEXTAUTH_URL="http://localhost:3000"
-   NEXTAUTH_SECRET="your-secret-key-here-change-in-production"
-
-   # App
-   NODE_ENV="development"
+   NEXTAUTH_SECRET=your-secret-key-here-change-in-production
+   NEXTAUTH_URL=http://localhost:3000
+   NODE_ENV=development
+   DATABASE_URL=file:./dev.db
    ```
 
-4. **Set up the database**
-   ```bash
-   # Generate Prisma client
-   npm run prisma:generate
-   
-   # Run database migrations
-   npm run prisma:migrate
-   
-   # Seed the database with demo data
-   npm run seed
-   ```
-
-5. **Start the development server**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-6. **Access the application**
-   - Open [http://localhost:3000](http://localhost:3000)
-   - Sign in with: `admin@corpfin.pro` / `Admin123!`
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Option 2: Docker Development
+### 🔑 Demo Credentials
 
-1. **Clone and navigate to the project**
-   ```bash
-   git clone <repository-url>
-   cd corpfin-pro
-   ```
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | `admin@corpfin.pro` | `Admin123!` |
+| **Analyst** | `analyst@corpfin.pro` | `Analyst123!` |
+| **Controller** | `controller@corpfin.pro` | `Controller123!` |
 
-2. **Start the development environment**
-   ```bash
-   docker-compose -f docker-compose.dev.yml up --build
-   ```
+## 🛠️ Technology Stack
 
-3. **Set up the database (in a new terminal)**
-   ```bash
-   # Run migrations
-   docker-compose -f docker-compose.dev.yml exec app npm run prisma:migrate
-   
-   # Seed the database
-   docker-compose -f docker-compose.dev.yml exec app npm run seed
-   ```
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Modern UI components
+- **Lucide React** - Beautiful icons
+- **Recharts** - Data visualization
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
 
-4. **Access the application**
-   - Open [http://localhost:3000](http://localhost:3000)
-   - Sign in with: `admin@corpfin.pro` / `Admin123!`
+### Backend
+- **Next.js API Routes** - Server-side API
+- **Prisma ORM** - Database management
+- **PostgreSQL** - Primary database
+- **NextAuth.js** - Authentication
+- **bcryptjs** - Password hashing
 
-## 🧪 Testing
-
-### Unit Tests (Vitest)
-```bash
-# Run all unit tests
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-```
-
-### E2E Tests (Playwright)
-```bash
-# Install Playwright browsers
-npx playwright install
-
-# Run E2E tests
-npm run e2e
-
-# Run E2E tests in headed mode
-npm run e2e:headed
-
-# Run E2E tests in UI mode
-npm run e2e:ui
-```
-
-## 🏗️ Building for Production
-
-### Local Build
-```bash
-# Build the application
-npm run build
-
-# Start production server
-npm start
-```
-
-### Docker Production Build
-```bash
-# Build production image
-docker build -t corpfin-pro .
-
-# Run production container
-docker run -p 3000:3000 \
-  -e DATABASE_URL="your-production-db-url" \
-  -e NEXTAUTH_SECRET="your-production-secret" \
-  corpfin-pro
-```
-
-## 🚀 Deployment
-
-### Vercel Deployment
-
-1. **Connect your repository to Vercel**
-   - Push your code to GitHub/GitLab
-   - Connect the repository in Vercel dashboard
-
-2. **Configure environment variables in Vercel**
-   ```env
-   DATABASE_URL="your-production-postgresql-url"
-   NEXTAUTH_URL="https://your-domain.vercel.app"
-   NEXTAUTH_SECRET="your-production-secret"
-   NODE_ENV="production"
-   ```
-
-3. **Deploy**
-   - Vercel will automatically deploy on push to main branch
-   - Run database migrations: `npm run prisma:migrate`
-   - Seed production data if needed: `npm run seed`
-
-### Railway Deployment
-
-1. **Connect to Railway**
-   - Install Railway CLI: `npm i -g @railway/cli`
-   - Login: `railway login`
-   - Link project: `railway link`
-
-2. **Add PostgreSQL service**
-   - Create PostgreSQL service in Railway dashboard
-   - Copy the connection URL to environment variables
-
-3. **Deploy**
-   ```bash
-   railway up
-   ```
-
-### Render Deployment
-
-1. **Create a new Web Service**
-   - Connect your GitHub repository
-   - Set build command: `npm install && npm run build`
-   - Set start command: `npm start`
-
-2. **Add PostgreSQL service**
-   - Create PostgreSQL service in Render dashboard
-   - Link it to your web service
-
-3. **Configure environment variables**
-   - Add all required environment variables in Render dashboard
+### Development Tools
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **Vitest** - Unit testing
+- **Playwright** - E2E testing
+- **Docker** - Containerization
 
 ## 📁 Project Structure
 
 ```
 corpfin-pro/
 ├── app/                    # Next.js App Router pages
-│   ├── api/               # API route handlers
+│   ├── api/               # API routes
 │   ├── auth/              # Authentication pages
-│   └── globals.css        # Global styles
-├── components/            # React components
+│   ├── dashboard/         # Main dashboard
+│   ├── planning/          # Financial planning
+│   ├── entities/          # Entity management
+│   ├── accounts/          # Chart of accounts
+│   ├── reports/           # Reports and analytics
+│   └── ...                # Other modules
+├── components/            # Reusable UI components
 │   ├── ui/               # shadcn/ui components
-│   ├── dashboard/        # Dashboard components
-│   └── providers/        # Context providers
-├── lib/                  # Utility libraries
-│   ├── services/         # Business logic services
-│   ├── utils.ts          # Utility functions
-│   ├── auth.ts           # NextAuth configuration
-│   └── db.ts             # Database connection
-├── prisma/               # Database schema and migrations
-│   ├── schema.prisma     # Prisma schema
-│   └── seed.ts           # Database seeding
-├── tests/                # Test files
-│   ├── unit/             # Vitest unit tests
-│   └── e2e/              # Playwright E2E tests
-├── docker-compose.dev.yml # Docker development setup
-├── Dockerfile            # Production Docker image
-└── package.json          # Dependencies and scripts
+│   └── layout/           # Layout components
+├── lib/                  # Utility functions
+├── prisma/               # Database schema
+├── types/                # TypeScript type definitions
+└── public/               # Static assets
 ```
 
-## 🔧 Configuration
+## 🎨 Dark Theme Implementation
 
-### Chart of Accounts Groups
-Edit `lib/services/consolidation.ts` to modify COA groupings:
-```typescript
-const COA_GROUPS = {
-  REVENUE: ['4000', '4100', '4200'],
-  COGS: ['5000', '5100', '5200'],
-  // ... add more groups
-}
+The platform features a beautiful dark theme with:
+- Dark blue/purple background (`#0f172a` to `#334155`)
+- White text for excellent readability
+- Optimized chart colors for dark backgrounds
+- Consistent color scheme across all components
+- Professional appearance suitable for financial applications
+
+## 🔧 Available Scripts
+
+```bash
+# Development
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run start            # Start production server
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix linting issues
+npm run format           # Format code with Prettier
+npm run type-check       # TypeScript type checking
+
+# Testing
+npm run test             # Run unit tests
+npm run test:ui          # Run tests with UI
+npm run test:coverage    # Generate coverage report
+npm run e2e              # Run E2E tests
+
+# Database
+npm run db:generate      # Generate Prisma client
+npm run db:push          # Push schema to database
+npm run db:migrate       # Run database migrations
+npm run db:studio        # Open Prisma Studio
+npm run db:seed          # Seed database
+
+# Docker
+npm run docker:dev       # Start development containers
+npm run docker:down      # Stop containers
 ```
 
-### Report Builder Configuration
-Edit `lib/services/reports.ts` to customize report templates:
-```typescript
-const REPORT_TEMPLATES = {
-  PNL: {
-    sections: ['Revenue', 'COGS', 'Gross Profit', 'Operating Expenses'],
-    calculations: ['subtotal', 'percentage', 'variance']
-  }
-  // ... add more templates
-}
+## 🌐 Deployment
+
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Railway
+1. Connect your GitHub repository to Railway
+2. Add PostgreSQL database
+3. Set environment variables
+4. Deploy
+
+### Docker
+```bash
+# Build image
+docker build -t corpfin-pro .
+
+# Run container
+docker run -p 3000:3000 corpfin-pro
 ```
-
-### Driver Formulas
-Edit `lib/services/drivers.ts` to add new driver types:
-```typescript
-const DRIVER_TYPES = {
-  HEADCOUNT: 'headcount * salary',
-  UNITS: 'units * price * seasonality',
-  // ... add more driver types
-}
-```
-
-## 🔐 Security
-
-### Default Credentials
-- **Admin User**: `admin@corpfin.pro` / `Admin123!`
-- **⚠️ IMPORTANT**: Change these credentials in production!
-
-### Security Features
-- Password hashing with bcryptjs
-- CSRF protection
-- Role-based access control (RBAC)
-- Input validation with Zod
-- Audit logging for sensitive operations
-- Rate limiting on authentication endpoints
-
-## 📊 Database Schema
-
-The application uses a comprehensive Prisma schema with the following key models:
-
-- **User**: Authentication and role management
-- **Organization**: Multi-tenant support
-- **Entity**: Legal entities for consolidation
-- **Account**: Chart of accounts
-- **Version**: Budget/forecast versions
-- **PlanCell**: Budget/forecast data
-- **FxRate**: Foreign exchange rates
-- **AuditLog**: Complete audit trail
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
 ## 📝 License
@@ -319,35 +250,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-For support and questions:
-- Create an issue in the GitHub repository
-- Check the documentation in the `/docs` folder
-- Review the API documentation at `/api/docs`
+- 📧 Email: support@corpfin.pro
+- 📖 Documentation: [docs.corpfin.pro](https://docs.corpfin.pro)
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/corpfin-pro/issues)
 
-## 🔄 Updates
+## 🙏 Acknowledgments
 
-To update the application:
-
-1. **Pull latest changes**
-   ```bash
-   git pull origin main
-   ```
-
-2. **Update dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Run database migrations**
-   ```bash
-   npm run prisma:migrate
-   ```
-
-4. **Rebuild the application**
-   ```bash
-   npm run build
-   ```
+- [Next.js](https://nextjs.org/) for the amazing React framework
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS
+- [Prisma](https://www.prisma.io/) for database management
+- [NextAuth.js](https://next-auth.js.org/) for authentication
 
 ---
 
-**CorpFin Pro** - Professional Corporate Finance Management Platform
+**Made with ❤️ for CFOs, Controllers, and FP&A professionals**
+
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/corpfin-pro?style=social)](https://github.com/yourusername/corpfin-pro)
+[![GitHub forks](https://img.shields.io/github/forks/yourusername/corpfin-pro?style=social)](https://github.com/yourusername/corpfin-pro)
+[![GitHub issues](https://img.shields.io/github/issues/yourusername/corpfin-pro)](https://github.com/yourusername/corpfin-pro/issues)
