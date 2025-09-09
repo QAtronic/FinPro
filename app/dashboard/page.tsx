@@ -1,9 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from 'react'
 import { 
   DollarSign, 
   TrendingUp, 
@@ -14,261 +11,332 @@ import {
   Calendar,
   Activity,
   BarChart3,
-  PieChart
+  PieChart,
+  Shield,
+  Car,
+  Home,
+  Heart,
+  Briefcase,
+  Plane,
+  Zap
 } from 'lucide-react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell, Pie } from 'recharts'
-
-const monthlyData = [
-  { month: 'Jan', revenue: 2500000, expenses: 1800000, profit: 700000 },
-  { month: 'Feb', revenue: 2600000, expenses: 1850000, profit: 750000 },
-  { month: 'Mar', revenue: 2800000, expenses: 1900000, profit: 900000 },
-  { month: 'Apr', revenue: 2750000, expenses: 1880000, profit: 870000 },
-  { month: 'May', revenue: 2900000, expenses: 1950000, profit: 950000 },
-  { month: 'Jun', revenue: 3000000, expenses: 2000000, profit: 1000000 },
-]
-
-const pieData = [
-  { name: 'Revenue', value: 17550000, color: '#10b981' },
-  { name: 'COGS', value: 11580000, color: '#ef4444' },
-  { name: 'Operating Expenses', value: 5980000, color: '#f59e0b' },
-]
-
-const kpiCards = [
-  {
-    title: 'Total Revenue',
-    value: '$17.55M',
-    change: '+12.5%',
-    changeType: 'positive' as const,
-    icon: DollarSign,
-    description: 'Year to date'
-  },
-  {
-    title: 'Gross Margin',
-    value: '34.0%',
-    change: '+2.1%',
-    changeType: 'positive' as const,
-    icon: TrendingUp,
-    description: 'vs last year'
-  },
-  {
-    title: 'EBITDA',
-    value: '$5.98M',
-    change: '+8.3%',
-    changeType: 'positive' as const,
-    icon: Target,
-    description: 'Year to date'
-  },
-  {
-    title: 'Active Entities',
-    value: '12',
-    change: '+2',
-    changeType: 'positive' as const,
-    icon: Building2,
-    description: 'This quarter'
-  },
-  {
-    title: 'Budget Variance',
-    value: '-2.3%',
-    change: '-1.1%',
-    changeType: 'negative' as const,
-    icon: TrendingDown,
-    description: 'vs plan'
-  },
-  {
-    title: 'Cash Flow',
-    value: '$3.2M',
-    change: '+15.2%',
-    changeType: 'positive' as const,
-    icon: Activity,
-    description: 'This month'
-  }
-]
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession()
+  const [activeTab, setActiveTab] = useState('overview')
 
-  if (status === 'loading') {
-    return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading...</div>
-        </div>
-      </DashboardLayout>
-    )
-  }
+  const stats = [
+    {
+      title: 'Total Policies',
+      value: '12',
+      change: '+2.5%',
+      changeType: 'positive',
+      icon: Shield,
+      color: 'blue'
+    },
+    {
+      title: 'Active Claims',
+      value: '3',
+      change: '-1.2%',
+      changeType: 'negative',
+      icon: Activity,
+      color: 'green'
+    },
+    {
+      title: 'Monthly Premium',
+      value: '$1,247',
+      change: '+5.1%',
+      changeType: 'positive',
+      icon: DollarSign,
+      color: 'purple'
+    },
+    {
+      title: 'Customer Satisfaction',
+      value: '98.5%',
+      change: '+0.8%',
+      changeType: 'positive',
+    icon: Users,
+      color: 'orange'
+    }
+  ]
 
-  if (!session) {
-    redirect('/auth/signin')
-  }
+  const recentPolicies = [
+    {
+      id: 1,
+      type: 'Auto Insurance',
+      policyNumber: 'AUTO-2024-001',
+      status: 'Active',
+      premium: '$89.00',
+      nextPayment: '2024-02-15',
+      icon: '🚗'
+    },
+    {
+      id: 2,
+      type: 'Home Insurance',
+      policyNumber: 'HOME-2024-002',
+      status: 'Active',
+      premium: '$45.00',
+      nextPayment: '2024-02-20',
+      icon: '🏠'
+    },
+    {
+      id: 3,
+      type: 'Life Insurance',
+      policyNumber: 'LIFE-2024-003',
+      status: 'Pending',
+      premium: '$25.00',
+      nextPayment: '2024-02-25',
+      icon: '❤️'
+    }
+  ]
+
+  const recentClaims = [
+    {
+      id: 1,
+      type: 'Auto Claim',
+      amount: '$2,500',
+      status: 'Approved',
+      date: '2024-01-15',
+      description: 'Collision damage repair'
+    },
+    {
+      id: 2,
+      type: 'Home Claim',
+      amount: '$1,200',
+      status: 'In Progress',
+      date: '2024-01-10',
+      description: 'Water damage restoration'
+    },
+    {
+      id: 3,
+      type: 'Auto Claim',
+      amount: '$850',
+      status: 'Pending',
+      date: '2024-01-05',
+      description: 'Windshield replacement'
+    }
+  ]
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {session?.user?.name}. Here's what's happening with your finances today.
-          </p>
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800"></div>
         </div>
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {kpiCards.map((card) => {
-            const Icon = card.icon
-            return (
-              <Card key={card.title}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    {card.title}
-                  </CardTitle>
-                  <Icon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{card.value}</div>
-                  <p className="text-xs text-muted-foreground">
-                    {card.description}
-                  </p>
-                  <div className={`flex items-center text-xs mt-1 ${
-                    card.changeType === 'positive' ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {card.changeType === 'positive' ? (
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                    ) : (
-                      <TrendingDown className="h-3 w-3 mr-1" />
-                    )}
-                    {card.change}
+        <div className="relative z-10 container mx-auto px-6 text-white">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-6">
+              <span className="inline-block bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm tracking-widest uppercase font-medium">
+                📊 Dashboard
+              </span>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold mb-8 leading-tight">
+              Welcome to Your
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-white to-blue-200">
+                Insurance Dashboard
+              </span>
+            </h1>
+            
+            <p className="text-xl text-blue-100 mb-10 leading-relaxed max-w-3xl mx-auto">
+              Manage your policies, track claims, and monitor your insurance portfolio all in one place.
+            </p>
                   </div>
-                </CardContent>
-              </Card>
-            )
-          })}
+        </div>
+      </section>
+
+      {/* Tabs */}
+      <section className="py-8 bg-white/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="flex justify-center space-x-8">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                activeTab === 'overview'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('policies')}
+              className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                activeTab === 'policies'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
+              Policies
+            </button>
+            <button
+              onClick={() => setActiveTab('claims')}
+              className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                activeTab === 'claims'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
+              Claims
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          {activeTab === 'overview' && (
+            <div>
+              {/* Stats Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                {stats.map((stat, index) => (
+                  <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 bg-${stat.color}-100 rounded-xl flex items-center justify-center`}>
+                        <stat.icon className={`w-6 h-6 text-${stat.color}-600`} />
+                      </div>
+                      <span className={`text-sm font-semibold ${
+                        stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
+                      }`}>
+                        {stat.change}
+                      </span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-gray-800 mb-2">{stat.value}</h3>
+                    <p className="text-gray-600">{stat.title}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Charts Placeholder */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-6">Policy Distribution</h3>
+                  <div className="h-64 flex items-center justify-center">
+                    <div className="text-center">
+                      <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-500">Chart visualization coming soon</p>
+                    </div>
+                  </div>
         </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Revenue Trend */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Revenue Trend</CardTitle>
-              <CardDescription>
-                Monthly revenue performance over the last 6 months
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={monthlyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="month" stroke="#9ca3af" />
-                  <YAxis stroke="#9ca3af" />
-                  <Tooltip 
-                    formatter={(value) => `$${(Number(value) / 1000000).toFixed(1)}M`}
-                    contentStyle={{
-                      backgroundColor: '#1f2937',
-                      border: '1px solid #374151',
-                      borderRadius: '8px',
-                      color: '#f9fafb'
-                    }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="revenue" 
-                    stroke="#10b981" 
-                    strokeWidth={2}
-                    name="Revenue"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="profit" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    name="Profit"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          {/* Expense Breakdown */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Expense Breakdown</CardTitle>
-              <CardDescription>
-                Distribution of costs and expenses
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <RechartsPieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(value) => `$${(Number(value) / 1000000).toFixed(1)}M`}
-                    contentStyle={{
-                      backgroundColor: '#1f2937',
-                      border: '1px solid #374151',
-                      borderRadius: '8px',
-                      color: '#f9fafb'
-                    }}
-                  />
-                </RechartsPieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>
-              Latest updates and changes in your financial data
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Budget version "Q4 2024" approved</p>
-                  <p className="text-xs text-muted-foreground">2 hours ago by John Smith</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">FX rates updated for EUR and GBP</p>
-                  <p className="text-xs text-muted-foreground">4 hours ago by System</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">New entity "TechCorp Europe" added</p>
-                  <p className="text-xs text-muted-foreground">1 day ago by Sarah Johnson</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Monthly actuals imported successfully</p>
-                  <p className="text-xs text-muted-foreground">2 days ago by System</p>
+                <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-6">Claims Trend</h3>
+                  <div className="h-64 flex items-center justify-center">
+                    <div className="text-center">
+                      <PieChart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-500">Chart visualization coming soon</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          )}
+
+          {activeTab === 'policies' && (
+            <div>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-gray-800 mb-4">Your Policies</h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Manage and monitor all your insurance policies
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {recentPolicies.map((policy) => (
+                  <div key={policy.id} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-3xl">{policy.icon}</span>
+                        <div>
+                          <h3 className="text-xl font-semibold text-gray-800">{policy.type}</h3>
+                          <p className="text-sm text-gray-500">{policy.policyNumber}</p>
+                        </div>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        policy.status === 'Active' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {policy.status}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-3 mb-6">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Premium:</span>
+                        <span className="font-semibold text-gray-800">{policy.premium}/month</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Next Payment:</span>
+                        <span className="font-semibold text-gray-800">{policy.nextPayment}</span>
+                      </div>
+                    </div>
+                    
+                    <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                      View Details
+                    </button>
+                </div>
+                ))}
+              </div>
+                </div>
+          )}
+
+          {activeTab === 'claims' && (
+            <div>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-gray-800 mb-4">Recent Claims</h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Track your insurance claims and their status
+                </p>
+              </div>
+              
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">Claim Type</th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">Amount</th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">Status</th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {recentClaims.map((claim) => (
+                          <tr key={claim.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4">
+                              <div>
+                                <div className="text-sm font-medium text-gray-800">{claim.type}</div>
+                                <div className="text-sm text-gray-500">{claim.description}</div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-sm font-semibold text-gray-800">{claim.amount}</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                                claim.status === 'Approved' 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : claim.status === 'In Progress'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {claim.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-600">{claim.date}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
       </div>
-    </DashboardLayout>
   )
 }

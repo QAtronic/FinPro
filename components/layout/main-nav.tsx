@@ -18,7 +18,13 @@ import {
   Calendar,
   DollarSign,
   Shield,
-  Activity
+  Activity,
+  Car,
+  Home,
+  Heart,
+  Briefcase,
+  MessageSquare,
+  ClipboardList
 } from 'lucide-react'
 
 const navigation = [
@@ -29,58 +35,64 @@ const navigation = [
     description: 'Overview and key metrics'
   },
   {
-    name: 'Planning',
-    href: '/planning',
-    icon: Target,
-    description: 'Budget and forecast management'
+    name: 'Policies',
+    href: '/policies',
+    icon: Shield,
+    description: 'Policy management and tracking'
   },
   {
-    name: 'Entities',
-    href: '/entities',
+    name: 'Claims',
+    href: '/claims',
+    icon: FileText,
+    description: 'Claims processing and management'
+  },
+  {
+    name: 'Clients',
+    href: '/clients',
     icon: Building2,
-    description: 'Legal entities and subsidiaries'
+    description: 'Client and business management'
   },
   {
-    name: 'Chart of Accounts',
-    href: '/accounts',
-    icon: Calculator,
-    description: 'Account structure and hierarchy'
+    name: 'Auto Insurance',
+    href: '/auto',
+    icon: Car,
+    description: 'Automotive insurance products'
   },
   {
-    name: 'Data Import',
-    href: '/import',
-    icon: Upload,
-    description: 'Import GL and transaction data'
+    name: 'Property Insurance',
+    href: '/property',
+    icon: Home,
+    description: 'Property and casualty insurance'
+  },
+  {
+    name: 'Health Insurance',
+    href: '/health',
+    icon: Heart,
+    description: 'Health and medical insurance'
+  },
+  {
+    name: 'Business Insurance',
+    href: '/business',
+    icon: Briefcase,
+    description: 'Commercial and business insurance'
   },
   {
     name: 'Reports',
     href: '/reports',
-    icon: FileText,
-    description: 'Financial reports and analysis'
+    icon: PieChart,
+    description: 'Insurance reports and analytics'
   },
   {
-    name: 'Scenarios',
-    href: '/scenarios',
-    icon: TrendingUp,
-    description: 'What-if analysis and modeling'
+    name: 'Messages',
+    href: '/messages',
+    icon: MessageSquare,
+    description: 'Communication and notifications'
   },
   {
-    name: 'FX Rates',
-    href: '/fx-rates',
-    icon: DollarSign,
-    description: 'Foreign exchange rate management'
-  },
-  {
-    name: 'Drivers',
-    href: '/drivers',
-    icon: Activity,
-    description: 'Business drivers and assumptions'
-  },
-  {
-    name: 'Approvals',
-    href: '/approvals',
-    icon: Shield,
-    description: 'Workflow and approval process'
+    name: 'Applications',
+    href: '/applications',
+    icon: ClipboardList,
+    description: 'Policy applications and quotes'
   },
   {
     name: 'Users',

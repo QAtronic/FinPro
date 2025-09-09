@@ -16,54 +16,58 @@ import {
   User,
   Mail,
   Calendar,
-  Activity
+  Activity,
+  Car,
+  Home,
+  Heart,
+  Briefcase
 } from 'lucide-react'
 
 const users = [
   {
     id: '1',
     name: 'John Smith',
-    email: 'john.smith@techcorp.com',
-    role: 'CFO',
+    email: 'john.smith@trustline.com',
+    role: 'MANAGER',
     status: 'ACTIVE',
     lastLogin: '2024-12-20T10:30:00Z',
     createdAt: '2024-01-15T08:00:00Z',
-    department: 'Finance'
+    department: 'Claims'
   },
   {
     id: '2',
     name: 'Sarah Johnson',
-    email: 'sarah.johnson@techcorp.com',
-    role: 'CONTROLLER',
+    email: 'sarah.johnson@trustline.com',
+    role: 'AGENT',
     status: 'ACTIVE',
     lastLogin: '2024-12-20T09:15:00Z',
     createdAt: '2024-02-01T09:00:00Z',
-    department: 'Finance'
+    department: 'Sales'
   },
   {
     id: '3',
     name: 'Mike Chen',
-    email: 'mike.chen@techcorp.com',
-    role: 'ANALYST',
+    email: 'mike.chen@trustline.com',
+    role: 'UNDERWRITER',
     status: 'ACTIVE',
     lastLogin: '2024-12-19T16:45:00Z',
     createdAt: '2024-03-10T10:00:00Z',
-    department: 'FP&A'
+    department: 'Underwriting'
   },
   {
     id: '4',
     name: 'Lisa Wang',
-    email: 'lisa.wang@techcorp.com',
-    role: 'ANALYST',
+    email: 'lisa.wang@trustline.com',
+    role: 'AGENT',
     status: 'ACTIVE',
     lastLogin: '2024-12-20T08:30:00Z',
     createdAt: '2024-04-05T11:00:00Z',
-    department: 'FP&A'
+    department: 'Customer Service'
   },
   {
     id: '5',
     name: 'David Smith',
-    email: 'david.smith@techcorp.com',
+    email: 'david.smith@trustline.com',
     role: 'VIEWER',
     status: 'INACTIVE',
     lastLogin: '2024-12-10T14:20:00Z',
@@ -73,23 +77,23 @@ const users = [
   {
     id: '6',
     name: 'Alex Brown',
-    email: 'alex.brown@techcorp.com',
-    role: 'ANALYST',
+    email: 'alex.brown@trustline.com',
+    role: 'AGENT',
     status: 'ACTIVE',
     lastLogin: '2024-12-20T11:00:00Z',
     createdAt: '2024-06-15T14:00:00Z',
-    department: 'Finance'
+    department: 'Sales'
   }
 ]
 
 const getRoleBadge = (role: string) => {
   switch (role) {
-    case 'CFO':
-      return <Badge className="bg-purple-800 text-purple-200">CFO</Badge>
-    case 'CONTROLLER':
-      return <Badge className="bg-blue-800 text-blue-200">Controller</Badge>
-    case 'ANALYST':
-      return <Badge className="bg-green-800 text-green-200">Analyst</Badge>
+    case 'MANAGER':
+      return <Badge className="bg-purple-800 text-purple-200">Manager</Badge>
+    case 'AGENT':
+      return <Badge className="bg-blue-800 text-blue-200">Agent</Badge>
+    case 'UNDERWRITER':
+      return <Badge className="bg-green-800 text-green-200">Underwriter</Badge>
     case 'VIEWER':
       return <Badge className="bg-gray-800 text-gray-200">Viewer</Badge>
     default:
@@ -277,15 +281,15 @@ export default function UsersPage() {
             <CardContent className="space-y-3">
               <Button variant="outline" className="w-full justify-start">
                 <Shield className="h-4 w-4 mr-2" />
-                CFO - Full Access
+                Manager - Full Access
               </Button>
               <Button variant="outline" className="w-full justify-start">
                 <User className="h-4 w-4 mr-2" />
-                Controller - Manage Data
+                Agent - Manage Policies
               </Button>
               <Button variant="outline" className="w-full justify-start">
                 <Activity className="h-4 w-4 mr-2" />
-                Analyst - Read/Write
+                Underwriter - Risk Assessment
               </Button>
               <Button variant="outline" className="w-full justify-start">
                 <Eye className="h-4 w-4 mr-2" />

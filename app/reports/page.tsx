@@ -17,15 +17,21 @@ import {
   Calendar,
   Filter,
   Search,
-  Settings
+  Settings,
+  Shield,
+  Car,
+  Home,
+  Heart,
+  Briefcase,
+  DollarSign
 } from 'lucide-react'
 
 const reports = [
   {
     id: '1',
-    name: 'Income Statement',
+    name: 'Premium Analysis Report',
     type: 'FINANCIAL',
-    description: 'Profit and loss statement for the current period',
+    description: 'Comprehensive analysis of premium collections and trends',
     lastRun: '2024-12-20T10:30:00Z',
     status: 'READY',
     format: 'PDF',
@@ -33,9 +39,9 @@ const reports = [
   },
   {
     id: '2',
-    name: 'Balance Sheet',
-    type: 'FINANCIAL',
-    description: 'Financial position as of the reporting date',
+    name: 'Claims Performance Report',
+    type: 'ANALYSIS',
+    description: 'Claims processing metrics and performance indicators',
     lastRun: '2024-12-20T10:30:00Z',
     status: 'READY',
     format: 'PDF',
@@ -43,9 +49,9 @@ const reports = [
   },
   {
     id: '3',
-    name: 'Cash Flow Statement',
-    type: 'FINANCIAL',
-    description: 'Cash inflows and outflows for the period',
+    name: 'Loss Ratio Analysis',
+    type: 'ANALYSIS',
+    description: 'Loss ratio trends and profitability analysis',
     lastRun: '2024-12-20T10:30:00Z',
     status: 'READY',
     format: 'PDF',
@@ -53,9 +59,9 @@ const reports = [
   },
   {
     id: '4',
-    name: 'Budget vs Actual',
+    name: 'Policy Distribution Report',
     type: 'ANALYSIS',
-    description: 'Variance analysis between budget and actual results',
+    description: 'Distribution of policies across product lines and regions',
     lastRun: '2024-12-19T15:45:00Z',
     status: 'READY',
     format: 'EXCEL',
@@ -63,9 +69,9 @@ const reports = [
   },
   {
     id: '5',
-    name: 'Revenue by Region',
+    name: 'Client Retention Report',
     type: 'ANALYSIS',
-    description: 'Geographic revenue breakdown and trends',
+    description: 'Client retention rates and renewal analysis',
     lastRun: '2024-12-18T09:15:00Z',
     status: 'READY',
     format: 'EXCEL',
@@ -73,9 +79,9 @@ const reports = [
   },
   {
     id: '6',
-    name: 'Expense Analysis',
-    type: 'ANALYSIS',
-    description: 'Detailed expense breakdown by category',
+    name: 'Risk Assessment Report',
+    type: 'RISK',
+    description: 'Risk assessment and underwriting analysis',
     lastRun: '2024-12-17T14:20:00Z',
     status: 'READY',
     format: 'EXCEL',
@@ -83,9 +89,9 @@ const reports = [
   },
   {
     id: '7',
-    name: 'KPI Dashboard',
+    name: 'Insurance Dashboard',
     type: 'DASHBOARD',
-    description: 'Key performance indicators and metrics',
+    description: 'Key performance indicators and business metrics',
     lastRun: '2024-12-20T11:00:00Z',
     status: 'READY',
     format: 'PDF',
@@ -93,9 +99,9 @@ const reports = [
   },
   {
     id: '8',
-    name: 'Forecast Report',
+    name: 'Market Forecast Report',
     type: 'FORECAST',
-    description: 'Financial projections and forecasting analysis',
+    description: 'Market trends and business projections',
     lastRun: '2024-12-16T16:30:00Z',
     status: 'READY',
     format: 'EXCEL',
@@ -108,7 +114,8 @@ const getTypeBadge = (type: string) => {
     FINANCIAL: 'bg-blue-800 text-blue-200',
     ANALYSIS: 'bg-green-800 text-green-200',
     DASHBOARD: 'bg-purple-800 text-purple-200',
-    FORECAST: 'bg-orange-800 text-orange-200'
+    FORECAST: 'bg-orange-800 text-orange-200',
+    RISK: 'bg-red-800 text-red-200'
   }
   return <Badge className={colors[type as keyof typeof colors]}>{type}</Badge>
 }
@@ -151,7 +158,7 @@ export default function ReportsPage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
             <p className="text-muted-foreground">
-              Generate and manage financial reports and analysis
+              Generate and manage insurance reports and analytics
             </p>
           </div>
           <div className="flex space-x-2">
@@ -198,9 +205,9 @@ export default function ReportsPage() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">4</div>
+              <div className="text-2xl font-bold">5</div>
               <p className="text-xs text-muted-foreground">
-                Financial, Analysis, Dashboard, Forecast
+                Financial, Analysis, Dashboard, Forecast, Risk
               </p>
             </CardContent>
           </Card>
@@ -225,7 +232,7 @@ export default function ReportsPage() {
               <div>
                 <CardTitle>Available Reports</CardTitle>
                 <CardDescription>
-                  Browse and generate financial reports
+                  Browse and generate insurance reports
                 </CardDescription>
               </div>
               <div className="flex space-x-2">
@@ -302,16 +309,16 @@ export default function ReportsPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <Button variant="outline" className="w-full justify-start">
-                <FileText className="h-4 w-4 mr-2" />
-                Financial Statements
+                <DollarSign className="h-4 w-4 mr-2" />
+                Financial Reports
               </Button>
               <Button variant="outline" className="w-full justify-start">
                 <BarChart3 className="h-4 w-4 mr-2" />
                 Analysis Reports
               </Button>
               <Button variant="outline" className="w-full justify-start">
-                <TrendingUp className="h-4 w-4 mr-2" />
-                Performance Dashboards
+                <Shield className="h-4 w-4 mr-2" />
+                Risk Assessment
               </Button>
               <Button variant="outline" className="w-full justify-start">
                 <Calendar className="h-4 w-4 mr-2" />
@@ -331,28 +338,28 @@ export default function ReportsPage() {
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">KPI Dashboard generated</p>
+                  <p className="text-sm font-medium">Insurance Dashboard generated</p>
                   <p className="text-xs text-muted-foreground">2 hours ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">Income Statement updated</p>
+                  <p className="text-sm font-medium">Premium Analysis updated</p>
                   <p className="text-xs text-muted-foreground">4 hours ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">Budget vs Actual report created</p>
+                  <p className="text-sm font-medium">Claims Performance report created</p>
                   <p className="text-xs text-muted-foreground">1 day ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">Forecast Report scheduled</p>
+                  <p className="text-sm font-medium">Market Forecast scheduled</p>
                   <p className="text-xs text-muted-foreground">2 days ago</p>
                 </div>
               </div>

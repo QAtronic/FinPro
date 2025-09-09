@@ -23,11 +23,11 @@ export function Sidebar() {
       <div className="flex h-16 items-center px-6 border-b">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">CF</span>
+            <span className="text-primary-foreground font-bold text-sm">TL</span>
           </div>
           <div>
-            <h1 className="text-lg font-semibold">CorpFin Pro</h1>
-            <p className="text-xs text-muted-foreground">Corporate Finance</p>
+            <h1 className="text-lg font-semibold">TrustLine Insurance</h1>
+            <p className="text-xs text-muted-foreground">B2B Insurance Portal</p>
           </div>
         </div>
       </div>
@@ -49,15 +49,20 @@ export function Sidebar() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 text-left">
-                <p className="text-sm font-medium">{session?.user?.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {session?.user?.email}
-                </p>
+                <p className="text-sm font-medium">{session?.user?.name || 'User'}</p>
+                <p className="text-xs text-muted-foreground">{session?.user?.email || 'user@example.com'}</p>
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{session?.user?.name || 'User'}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {session?.user?.email || 'user@example.com'}
+                </p>
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />

@@ -1,51 +1,50 @@
-import { NextAuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { NextAuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null
         }
 
-        // Demo credentials for development
-        if (credentials.email === 'admin@corpfin.pro' && credentials.password === 'Admin123!') {
+        // Demo users for development
+        if (credentials.email === 'manager@trustline.com' && credentials.password === 'Manager123!') {
           return {
-            id: 'demo-user-1',
-            email: 'admin@corpfin.pro',
-            name: 'Admin User',
-            role: 'CFO',
-            orgId: 'demo-org-1',
-            orgName: 'CorpFin Pro Demo'
+            id: '1',
+            name: 'Manager User',
+            email: 'manager@trustline.com',
+            role: 'MANAGER',
+            orgId: 'trustline-insurance',
+            orgName: 'TrustLine Insurance'
           }
         }
 
-        // Additional demo users
-        if (credentials.email === 'analyst@corpfin.pro' && credentials.password === 'Analyst123!') {
+        if (credentials.email === 'agent@trustline.com' && credentials.password === 'Agent123!') {
           return {
-            id: 'demo-user-2',
-            email: 'analyst@corpfin.pro',
-            name: 'Financial Analyst',
-            role: 'ANALYST',
-            orgId: 'demo-org-1',
-            orgName: 'CorpFin Pro Demo'
+            id: '2',
+            name: 'Agent User',
+            email: 'agent@trustline.com',
+            role: 'AGENT',
+            orgId: 'trustline-insurance',
+            orgName: 'TrustLine Insurance'
           }
         }
 
-        if (credentials.email === 'controller@corpfin.pro' && credentials.password === 'Controller123!') {
+        if (credentials.email === 'underwriter@trustline.com' && credentials.password === 'Underwriter123!') {
           return {
-            id: 'demo-user-3',
-            email: 'controller@corpfin.pro',
-            name: 'Controller',
-            role: 'CONTROLLER',
-            orgId: 'demo-org-1',
-            orgName: 'CorpFin Pro Demo'
+            id: '3',
+            name: 'Underwriter User',
+            email: 'underwriter@trustline.com',
+            role: 'UNDERWRITER',
+            orgId: 'trustline-insurance',
+            orgName: 'TrustLine Insurance'
           }
         }
 
@@ -54,7 +53,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   session: {
-    strategy: "jwt"
+    strategy: 'jwt'
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -76,7 +75,7 @@ export const authOptions: NextAuthOptions = {
     }
   },
   pages: {
-    signIn: "/auth/signin"
-  },
-  secret: process.env.NEXTAUTH_SECRET
+    signIn: '/auth/signin'
+  }
 }
+
